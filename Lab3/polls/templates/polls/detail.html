@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans 'Details' %}{% endblock %}
+
+{% block content %}
+    {% if error_message %}
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <strong>Warning!</strong> {{ error_message }}
+        </div>
+    {% endif %}
+
+    <form action="{% url 'polls:vote' question.id %}" method="post">
+        {% csrf_token %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>{{ question.question_text }}</h4>
+            </div>
+            <ul class="list-group">
+                {% for choice in question.choice_set.all %}
+                    <li class="list-group-item">
+                        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+                        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="panel-footer">
+                <input class="btn btn-primary" type="submit" value="Vote" />
+                {% if user == question.author %}
+                    <a href="{% url 'polls:edit' question.id %}" class="btn btn-info" role="button">Change</a>
+                {% endif %}
+            </div>
+        </div>
+    </form>
+{% endblock content %}

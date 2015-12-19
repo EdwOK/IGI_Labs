@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="PostgreSQL - polls@localhost" uuid="407e6fca-df5b-4901-9689-2517b5ebe4f3">
+      <secret-storage>master_key</secret-storage>
+      <user-name>postgres</user-name>
+      <schema-pattern>polls.pg_catalog polls.public</schema-pattern>
+      <default-schemas>polls.pg_catalog polls.public</default-schemas>
+    </data-source>
+  </component>
+</project>

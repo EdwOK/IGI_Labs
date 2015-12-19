@@ -1,0 +1,71 @@
+{% load bootstrap3 %}
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="description" content="{% block description %}{% endblock %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    {% bootstrap_css %}
+</head>
+<body>
+    <div class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% url 'polls:index' %}">Polls</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'polls:index' %}">{% trans 'Home' %}</a></li>
+                    <li><a href="{% url 'polls:about' %}">{% trans 'About' %}</a></li>
+                    <li><a href="{% url 'polls:contact' %}">{% trans 'Contact' %}</a></li>
+                </ul>
+                {% block nav_user %}
+                    {% if user.is_authenticated %}
+                        <ul class="nav navbar-nav navbar-right">
+                            <li id="nav-username">
+                                <a href="#profile">
+                                    <span class="glyphicon glyphicon-user"></span> {{ user.get_username }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{% url 'auth_logout' %}">{% trans 'Sign out' %}</a>
+                            </li>
+                        </ul>
+                    {% else %}
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a href="{% url 'auth_login' %}">{% trans 'Log in' %}</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'registration_register' %}">{% trans 'Register' %}</a>
+                            </li>
+                        </ul>
+                    {% endif %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+    <div id="page-footer">
+        <div class="container">
+            <footer>
+                <hr />
+                <p>&copy; Polls 2015</p>
+            </footer>
+        </div>
+    </div>
+    {% bootstrap_javascript jquery=True %}
+</body>
+</html>

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans 'Polls' %}{% endblock %}
+
+{% block content %}
+    <form method="get" action="{% url 'polls:search' %}">
+        <div class="form-group">
+            <input name="query" type="text" class="form-control" required placeholder="Search for...">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+        <a href="{% url 'polls:create' %}" class="btn btn-info" role="button">Create</a>
+    </form>
+    <hr>
+    {% block results %}
+        {% if latest_question_list %}
+            <div class="list-group">
+                {% for question in latest_question_list %}
+                    <div class="list-group-item clearfix">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                        <span class="list-group-item-heading">
+                            <a href="{% url 'polls:results' question.id %}">
+                                {{ question.question_text }}
+                            </a>
+                        </span>
+                        <span class="list-group-item-text">
+                            {{ question.author }}
+                            {{ question.pub_date }}
+                        </span>
+                        <span class="pull-right">
+                            <a href="{% url 'polls:delete' question.id %}" class="btn btn-xs btn-warning">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            {% if info_message %}
+                <div class="alert alert-info alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{ info_message }}
+                </div>
+            {% else %}
+                <p>{% trans 'No poslls are available.' %}</p>
+            {% endif %}
+        {% endif %}
+    {% endblock results %}
+{% endblock content %}

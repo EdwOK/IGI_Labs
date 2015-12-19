@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% trans 'Create' %}{% endblock %}
+
+{% block content %}
+    <form method="post" action="{% url 'polls:create' %}">
+        {% csrf_token %}
+        {{ form|crispy }}
+        {{ formset.management_form }}
+        {% for choise_form in formset %}
+            {{ choise_form|crispy }}
+        {% endfor %}
+        <input class="btn btn-primary" type="submit" value="{% trans 'Create' %}" />
+    </form>
+{% endblock %}

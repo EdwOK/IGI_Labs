@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% trans 'Edit' %}{% endblock %}
+
+{% block content %}
+    <form method="post" action="{% url 'polls:edit' question.id %}">
+        {% csrf_token %}
+        {{ formset.management_form|crispy }}
+        {% for choise_form in formset %}
+            {{ choise_form|crispy }}
+        {% endfor %}
+        <input class="btn btn-primary" type="submit" value="{% trans 'Save' %}" />
+    </form>
+{% endblock %}
